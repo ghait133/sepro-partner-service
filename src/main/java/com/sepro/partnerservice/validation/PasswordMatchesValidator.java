@@ -1,6 +1,8 @@
 package com.sepro.partnerservice.validation;
 
 
+import com.sepro.partnerservice.dto.PartnerDto;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

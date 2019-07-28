@@ -1,5 +1,6 @@
 package com.sepro.partnerservice.dto;
 
+import com.sepro.partnerservice.entity.Adresse;
 import com.sepro.partnerservice.validation.ValidEmail;
 import com.sepro.partnerservice.validation.ValidPassword;
 

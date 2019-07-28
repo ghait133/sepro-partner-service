@@ -7,26 +7,35 @@ import javax.persistence.Table;
 @Table(name = "adresse")
 public class Adresse extends BaseIdEntity{
 
-    String StreetName;
-    String HouseNumbre;
+    String streetName;
+    String houseNumbre;
     int plz;
     String cityName;
     String countryName;
 
+
+    public Adresse( Adresse adresse) {
+        this.streetName = adresse.getStreetName();
+        this.houseNumbre = adresse.getHouseNumbre();
+        this.plz = adresse.getPlz();
+        this.cityName = adresse.getCityName();
+        this.countryName = adresse.getCountryName();
+    }
+
     public String getStreetName() {
-        return StreetName;
+        return streetName;
     }
 
     public void setStreetName(String streetName) {
-        StreetName = streetName;
+        this.streetName = streetName;
     }
 
     public String getHouseNumbre() {
-        return HouseNumbre;
+        return houseNumbre;
     }
 
     public void setHouseNumbre(String houseNumbre) {
-        HouseNumbre = houseNumbre;
+        this.houseNumbre = houseNumbre;
     }
 
     public int getPlz() {

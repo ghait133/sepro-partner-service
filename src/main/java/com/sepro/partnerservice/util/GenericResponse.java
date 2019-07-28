@@ -3,10 +3,12 @@ package com.sepro.partnerservice.util;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GenericResponse {
+public class GenericResponse  implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String message;
     private String error;
 

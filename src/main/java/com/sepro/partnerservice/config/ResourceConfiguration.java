@@ -1,20 +1,22 @@
 package com.sepro.partnerservice.config;
 
+import com.google.common.net.HttpHeaders;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.client.token.AccessTokenProvider;
-import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsAccessTokenProvider;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.AuthenticationScheme;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 
@@ -35,7 +37,7 @@ public class ResourceConfiguration {
     //@Value("${clientSecret}")
     private String clientSecret = "password";
 
-    @Bean
+    /*@Bean
     public OAuth2ProtectedResourceDetails reddit() {
         AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
         details.setId("reddit");
@@ -43,17 +45,48 @@ public class ResourceConfiguration {
         details.setClientSecret(clientSecret);
         details.setAccessTokenUri(accessTokenUri);
         details.setUserAuthorizationUri(userAuthorizationUri);
-        details.setTokenName("oauth_token");
-        details.setScope(Arrays.asList("identity"));
-        details.setUseCurrentUri(false);
+        details.isClientOnly();
+        return details;
+    }*/
+
+  /*  @Bean
+    public OAuth2ProtectedResourceDetails trusted() {
+        ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
+        details.setClientId(clientID);
+        details.setClientSecret(clientSecret);
+        details.setAccessTokenUri(accessTokenUri);
+        details.setGrantType("password");
+        details.setAuthenticationScheme(AuthenticationScheme.header);
+        details.setUsername("admin");
+        details.setPassword("password");
+        details.isClientOnly();
         return details;
     }
-
+*/
+    @LoadBalanced
     @Bean
     public OAuth2RestTemplate redditRestTemplate(@Qualifier("oauth2ClientContext") OAuth2ClientContext clientContext) {
-        OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(), clientContext);
+        ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
+        details.setClientId(clientID);
+        details.setClientSecret(clientSecret);
+        details.setAccessTokenUri(accessTokenUri);
+        details.setGrantType("password");
+        details.setAuthenticationScheme(AuthenticationScheme.header);
+        details.setUsername("admin");
+        details.setPassword("password");
+        details.isClientOnly();
+        final ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
+        resourceDetails.setClientId("USER_CLIENT_APP");
+        resourceDetails.setClientSecret("password");
+        resourceDetails.setGrantType("client_credentials");
+        resourceDetails
+                .setAccessTokenUri("http://localhost:8072/oauth/token");
+        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);
+        OAuth2RestTemplate template = new OAuth2RestTemplate(resourceDetails);
+
 
         return template;
     }
+
 
 }

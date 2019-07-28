@@ -1,5 +1,7 @@
 package com.sepro.partnerservice.entity;
 
+import com.sun.istack.Nullable;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Partner extends BaseIdEntity{
     String telNumbre;
 
     @OneToOne(targetEntity = Adresse.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true, name = "adresse_id", foreignKey = @ForeignKey(name = "ID"))
+    @JoinColumn(nullable = false, name = "adresse_id", foreignKey = @ForeignKey(name = "id"))
     private Adresse adresse;
 
     public String getCompanyName() {
