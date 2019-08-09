@@ -10,20 +10,48 @@ import java.util.List;
 public class Partner extends BaseIdEntity{
 
 
-    String companyName;
+    String companyShortName;
+    String companyLongName;
     String email;
-    String telNumbre;
+    String telNumber;
 
     @OneToOne(targetEntity = Adresse.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "adresse_id", foreignKey = @ForeignKey(name = "id"))
+    @JoinColumn(nullable = true, name = "adresse", foreignKey = @ForeignKey(name = "id"))
     private Adresse adresse;
 
-    public String getCompanyName() {
-        return companyName;
+    Long user_id;
+    Long sector_id;
+
+    public String getCompanyShortName() {
+        return companyShortName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompanyShortName(String companyShortName) {
+        this.companyShortName = companyShortName;
+    }
+
+    public String getCompanyLongName() {
+        return companyLongName;
+    }
+
+    public void setCompanyLongName(String companyLongName) {
+        this.companyLongName = companyLongName;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public Long getSector_id() {
+        return sector_id;
+    }
+
+    public void setSector_id(Long sector_id) {
+        this.sector_id = sector_id;
     }
 
     public String getEmail() {
@@ -42,11 +70,11 @@ public class Partner extends BaseIdEntity{
         this.adresse = adresse;
     }
 
-    public String getTelNumbre() {
-        return telNumbre;
+    public String getTelNumber() {
+        return telNumber;
     }
 
-    public void setTelNumbre(String telNumbre) {
-        this.telNumbre = telNumbre;
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
     }
 }

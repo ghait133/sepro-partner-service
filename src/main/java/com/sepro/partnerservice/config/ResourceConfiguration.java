@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 
@@ -37,7 +36,7 @@ public class ResourceConfiguration {
     //@Value("${clientSecret}")
     private String clientSecret = "password";
 
-    /*@Bean
+    @Bean
     public OAuth2ProtectedResourceDetails reddit() {
         AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
         details.setId("reddit");
@@ -47,7 +46,7 @@ public class ResourceConfiguration {
         details.setUserAuthorizationUri(userAuthorizationUri);
         details.isClientOnly();
         return details;
-    }*/
+    }
 
   /*  @Bean
     public OAuth2ProtectedResourceDetails trusted() {
@@ -66,7 +65,7 @@ public class ResourceConfiguration {
     @LoadBalanced
     @Bean
     public OAuth2RestTemplate redditRestTemplate(@Qualifier("oauth2ClientContext") OAuth2ClientContext clientContext) {
-        ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
+        /*ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
         details.setClientId(clientID);
         details.setClientSecret(clientSecret);
         details.setAccessTokenUri(accessTokenUri);
@@ -81,8 +80,8 @@ public class ResourceConfiguration {
         resourceDetails.setGrantType("client_credentials");
         resourceDetails
                 .setAccessTokenUri("http://localhost:8072/oauth/token");
-        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);
-        OAuth2RestTemplate template = new OAuth2RestTemplate(resourceDetails);
+        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);*/
+        OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(),clientContext);
 
 
         return template;

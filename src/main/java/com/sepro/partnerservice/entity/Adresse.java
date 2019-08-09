@@ -9,15 +9,17 @@ public class Adresse extends BaseIdEntity{
 
     String streetName;
     String houseNumbre;
-    int plz;
+    String postCode;
     String cityName;
     String countryName;
 
+    public Adresse() {
+    }
 
-    public Adresse( Adresse adresse) {
+    public Adresse(Adresse adresse) {
         this.streetName = adresse.getStreetName();
         this.houseNumbre = adresse.getHouseNumbre();
-        this.plz = adresse.getPlz();
+        this.postCode = adresse.getPostCode();
         this.cityName = adresse.getCityName();
         this.countryName = adresse.getCountryName();
     }
@@ -38,12 +40,12 @@ public class Adresse extends BaseIdEntity{
         this.houseNumbre = houseNumbre;
     }
 
-    public int getPlz() {
-        return plz;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPlz(int plz) {
-        this.plz = plz;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getCityName() {

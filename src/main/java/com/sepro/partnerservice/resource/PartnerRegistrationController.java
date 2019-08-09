@@ -25,9 +25,9 @@ public class PartnerRegistrationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public GenericResponse registerUserAccount(@Valid @RequestBody final PartnerDto accountDto, final HttpServletRequest request) {
+    public GenericResponse registerUserAccount(@Valid @RequestBody final PartnerDto partnerForm, final HttpServletRequest request) {
         try {
-            final Partner registered = partnerService.registerNewPartnerAccount(accountDto);
+            partnerService.registerNewPartnerAccount(partnerForm);
         } catch (IOException e) {
             return new GenericResponse("error");
         }

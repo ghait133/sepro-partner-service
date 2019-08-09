@@ -3,7 +3,7 @@ spring:
     name: partner-service
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33060/homestead
+    url: jdbc:mysql://localhost:3306/homestead
     username: homestead
     password: secret
     tomcat:
