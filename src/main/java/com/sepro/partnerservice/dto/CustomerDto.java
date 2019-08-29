@@ -4,7 +4,7 @@ import com.sepro.partnerservice.entity.Adresse;
 
 import java.util.Date;
 
-public class CustomerDto {
+public class CustomerDto extends BaseDto{
 
     private String firstName;
     private String lastName;

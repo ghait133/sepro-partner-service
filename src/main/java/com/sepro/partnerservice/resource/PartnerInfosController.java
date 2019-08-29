@@ -1,5 +1,6 @@
 package com.sepro.partnerservice.resource;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sepro.partnerservice.dto.PartnerList;
 import com.sepro.partnerservice.entity.Partner;
 import com.sepro.partnerservice.service.PartnerService;
@@ -26,4 +27,13 @@ public class PartnerInfosController {
 
         return partnerService.getPartnersByIds(partnerIds);
     }
+
+    @RequestMapping(value = "/getpartnersbyemail", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAnyAuthority('role_partner','role_customer')")
+    public @ResponseBody Partner getPartnerByEmail( @RequestBody ObjectNode partnerEmail) {
+
+        return partnerService.getPartnerByEmail(partnerEmail.get("partnerEmail").asText());
+    }
+
+
 }

@@ -1,12 +1,11 @@
 package com.sepro.partnerservice.service;
 
-import com.sepro.partnerservice.dto.CustomerList;
-import com.sepro.partnerservice.dto.PartnerDto;
-import com.sepro.partnerservice.dto.PartnerList;
-import com.sepro.partnerservice.dto.UserDto;
+import com.sepro.partnerservice.dto.*;
 import com.sepro.partnerservice.entity.Adresse;
+import com.sepro.partnerservice.entity.CustomerPartner;
 import com.sepro.partnerservice.entity.Partner;
 import com.sepro.partnerservice.error.UserAlreadyExistException;
+import com.sepro.partnerservice.model.CustomPrincipal;
 import com.sepro.partnerservice.repository.CustomerRepository;
 import com.sepro.partnerservice.repository.PartnerRepository;
 import com.sepro.partnerservice.util.GenericResponse;
@@ -26,6 +25,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -103,7 +103,8 @@ public class PartnerService implements IPartnerService{
         return partnerList;
     }
 
-    public CustomerList getAllCustomersForPartner (Long partnerId){
+    public CustomerList getAllCustomersForPartner (String partnerEmail){
+        Long partnerId = partnerRepository.findByEmail(partnerEmail).getId();
 
         List<Long> customerIds = new ArrayList<>();
         customerRepository.findByPartnerId(partnerId).forEach(customerPartner -> {
@@ -112,6 +113,29 @@ public class PartnerService implements IPartnerService{
         CustomerList customers = restTemplate.postForObject("http://customer-service/getcustomersbyidlist",customerIds, CustomerList.class);
 
         return customers;
+    }
+
+    public Partner getPartnerByEmail(String partnerEmail){
+        return partnerRepository.findByEmail(partnerEmail);
+    }
+
+    public void addCustomer(CustomerDto customer, CustomPrincipal principal) throws IOException {
+
+        Partner partner = partnerRepository.findByEmail(principal.getEmail());
+        Boolean flag = relationExists(partner,customer);
+        if (!flag) {
+            throw new UserAlreadyExistException("Der Kunde " + customer.getFirstName() + " " + customer.getLastName() + " existiert schon bei der Liste des Partners");
+        }
+
+        CustomerPartner customerPartner = new CustomerPartner();
+        customerPartner.setCustomerId(customer.getId());
+        customerPartner.setPartnerId(partner.getId());
+
+        customerRepository.save(customerPartner);
+    }
+
+    private boolean relationExists( Partner partner,CustomerDto customer){
+        return customerRepository.findByCustomerIdAndPartnerId(customer.getId(), partner.getId() ).isEmpty();
     }
 
 }
