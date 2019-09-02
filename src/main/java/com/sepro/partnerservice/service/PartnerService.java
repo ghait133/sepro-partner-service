@@ -63,13 +63,13 @@ public class PartnerService implements IPartnerService{
                 partner.getEmail(),
                 "partner_role");
 
-        /*OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{" +
-                "\"email\":\"" + accountDto.getEmail() + "\","+
-                "\"password\":\"" + accountDto.getPassword()+ "\","+
-                "\"matchingPassword\":\"" + accountDto.getConfirmPassword() + "\","+
+                "\"email\":\"" + partnerForm.getEmail() + "\","+
+                "\"password\":\"" + partnerForm.getPassword()+ "\","+
+                "\"confirmPassword\":\"" + partnerForm.getConfirmPassword() + "\","+
                 "\"role\":\" role_partner\""+
                 "}");
         Request request = new Request.Builder()
@@ -78,7 +78,7 @@ public class PartnerService implements IPartnerService{
                 .addHeader("Content-Type", "application/json")
                 .build();
 
-        client.newCall(request).execute();*/
+        client.newCall(request).execute();
         //restTemplate.postForObject("http://user-service/registration", user,String.class);
             //OAuth2AccessToken oAuth2AccessToken = restTemplate.getAccessToken();
         return partnerRepository.save(partner);
